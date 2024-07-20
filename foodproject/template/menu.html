@@ -1,0 +1,112 @@
+{% load static %}
+
+{% include "headlink.html" %}
+
+
+
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Food Menu</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center text-uppercase">
+                <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Menu</li>
+            </ol>
+        </nav>
+        <div class="container">
+            <div class="row justify-content-center" data-wow-delay="0.1s">
+                <div class="col-auto">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link action" href="{% url 'filterbycategory' 1 %}">Breakfast</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link action" href="{% url 'filterbycategory' 2 %}">Lunch</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link action" href="{% url 'filterbycategory' 3 %}">Dinner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link action " href="{% url 'filterbytype' 1 %}">VEG</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link action" href="{% url 'filterbytype' 2 %}">NON-VEG</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link action " href="{% url 'filterbytype' 3 %}">HotDrinks</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link action" href="{% url 'filterbytype' 4 %}">ColdDrinks</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Navbar & Hero End -->
+
+
+<!-- Menu Start -->
+
+   {% include "messages.html" %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
+            <h1 class="mb-5">Most Popular Items</h1>
+        </div>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div class="row g-4">
+                        {% for item in menuitems %}
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="{{item.image.url}}" alt=""
+                                    style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <span>{{ item.name }}</span>
+                                        {% if item.category == 1 %}
+                                        <span>BreakFast</span>
+                                        {% elif item.category == 2 %}
+                                        <span>Lunch</span>
+                                        {% else %}
+                                        <span>Dinner</span>
+                                        {% endif %}
+                                        
+                                        {% if item.type == 1 %}
+                                        <span>VEG</span>
+                                        {% elif item.type == 2 %}
+                                        <span>NON-VEG</span>
+                                        {% elif item.type == 3 %}
+                                        <span>HotDrinks</span>
+                                        {% else %}
+                                        <span>ColdDrinks</span>
+                                        {% endif %}
+                                        
+                                        <span class="text-primary">{{ item.price }}</span>
+                                        <a class="btn btn-primary py-1 px-1 mt-2" href="{% url 'addtocart' item.id %}">Add</a>
+                                    </h5>
+                                    <small class="fst-italic">{{ item.description }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Menu End -->
+
+{% include "footer.html" %}
+
+
+

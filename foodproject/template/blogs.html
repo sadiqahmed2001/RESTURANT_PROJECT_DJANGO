@@ -1,0 +1,46 @@
+{% load static %}
+
+{% include "headlink.html" %}
+
+<body>
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+      <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">BLOGS</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center text-uppercase">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+            <li class="breadcrumb-item text-white active" aria-current="page">
+              About
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="container mt-5">
+        <h1 class="mb-4">Blog Posts</h1>
+        {% for post in posts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="date">
+                        Published {{ post.publish|date:"F j, Y" }} by {{ post.author }}
+                    </p>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" class="img-fluid mb-3" alt="{{ post.title }}">
+                    {% endif %}
+                    <p class="card-text">{{ post.body|linebreaks }}</p>
+                    <p class="card-text"><small class="text-muted">Published on {{ post.publish|date:"F j, Y" }}</small></p>
+                    {% for image in post.images.all %}
+                        <img src="{{ image.image.url }}" class="img-fluid mt-2" alt="{{ post.title }}">
+                    {% endfor %}
+                </div>
+            </div>
+        {% empty %}
+            <p>No blog posts available.</p>
+        {% endfor %}
+    </div>
+
+    
+
+{% include "footer.html" %}

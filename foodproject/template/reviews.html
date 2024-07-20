@@ -1,0 +1,75 @@
+{% load static %}
+{% include "headlink.html" %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">YOUR FEEDBACK MATTERS TO US TO ENSURE OUR CUSTOMER SATISFACTION</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center text-uppercase">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Client Reviews Section</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="row g-0">
+        <div class="col-md-6">
+            <div class="video">
+                <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-6 bg-dark d-flex align-items-center">
+            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">FEEDBACK</h5>
+                <h1 class="text-white mb-4">GIVE US YOUR HONEST REVIEW</h1>
+                <form method="POST" action="{% url 'reviews' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" name="username" placeholder="Enter your name" required>
+                                <label for="name" class="form-label">Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="profession" name="prof" placeholder="Enter your profession" required>
+                                <label for="profession" class="form-label">Profession</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating date" id="date3" data-target-input="nearest">
+                                <textarea class="form-control" id="testimonial" rows="3" name="client" placeholder="Enter your testimonial" required></textarea>
+                                <label for="testimonial" class="form-label">Testimonial</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="rating" name="rating" placeholder="Give us a rating out of 10" min="1" max="10" required>
+                                <label for="rating" class="form-label">Rating</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="image" name="image" accept=".jpg, .jpeg, .png" required>
+                                    <label class="custom-file-label" for="image">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-success w-100 py-3" type="submit">Submit FEEDBACK</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "footer.html" %}

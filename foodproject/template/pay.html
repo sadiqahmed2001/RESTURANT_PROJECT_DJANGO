@@ -1,0 +1,157 @@
+{% load static %}
+{% include "headlink.html" %}
+{% include "messages.html" %}
+
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+  <div class="container text-center my-5 pt-5 pb-4">
+    <h1 class="display-3 text-white mb-3 animated slideInDown">Order Payment</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center text-uppercase">
+        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+        <li class="breadcrumb-item"><a href="/viewcart">CART</a></li>
+        <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h5 class="section-title ff-secondary text-center text-primary fw-normal">CART</h5>
+      <h1 class="mb-5">Your Orders</h1>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+              <tr>
+                <td>
+                  <img class="img-fluid rounded" src="{{ order.m_id.image.url }}" alt="" style="width: 80px;">
+                </td>
+                <td>{{ order.m_id.name }}</td>
+                <td>
+                  {% if order.m_id.category == 1 %}
+                  BreakFast
+                  {% elif order.m_id.category == 2 %}
+                  Lunch
+                  {% else %}
+                  Dinner
+                  {% endif %}
+                </td>
+                <td>
+                  {% if order.m_id.type == 1 %}
+                  VEG
+                  {% elif order.m_id.type == 2 %}
+                  NON-VEG
+                  {% elif order.m_id.type == 3 %}
+                  HotDrinks
+                  {% else %}
+                  ColdDrinks
+                  {% endif %}
+                </td>
+                <td>{{ order.m_id.price }}</td>
+                <td>{{ order.qty }}</td>
+                <td>{{ order.m_id.price|floatformat:2 }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row g-6">
+      <div class="col-md-7 wow fadeIn" data-wow-delay="0.1s"></div>
+      <div class="col-md-5 mt-5 shadow d-flex flex-column align-items-center justify-content-center">
+        <h4>Price details</h4>
+        <hr>
+        <p><strong>Total Items: {{ n }} items</strong></p>
+        <p><strong>Total Amount:</strong> {{ total|floatformat:2 }}</p>
+        <a href="/makepayment">:)</a>
+        <button id="rzp-button1" class="btn btn-danger py-2 px-4 mt-3">Pay with Razorpay</button>
+
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+          // function getCookie(name) {
+          //   let cookieValue = null;
+          //   if (document.cookie && document.cookie !== '') {
+          //     const cookies = document.cookie.split(';');
+          //     for (let i = 0; i < cookies.length; i++) {
+          //       const cookie = cookies[i].trim();
+          //       if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          //         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          //         break;
+          //       }
+          //     }
+          //   }
+          //   return cookieValue;
+          // }
+          // const csrftoken = getCookie('csrftoken');
+          // fetch('/makepayment', {
+          //   method: 'GET',
+          //   headers: {
+          //     'X-CSRFToken': csrftoken,
+          //   },
+          // })
+          // .then(response => response.json())
+          // .then(data => {
+            var options = {
+              "key": "rzp_test_JjQ72OskgZ3YwQ", // Enter the Key ID generated from the Dashboard
+              "amount": "{{ total|floatformat:0 }}00", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+              "currency": "INR",
+              "name": "DADDY's RESTAURANT.pvt ltd",
+              "description": "Test Transaction",
+              "image": "https://example.com/your_logo",
+              "order_id": "{{data.payment.id }}",
+              "handler": function (response) {
+              window.location.href = `http://127.0.0.1:5000/paymentsuccess/?razorpay_payment_id=${response.razorpay_payment_id}&razorpay_order_id=${response.razorpay_order_id}&razorpay_signature=${response.razorpay_signature}`;
+            },
+            "prefill": {
+              "name": "{{ request.user.name }}",
+              "email": "{{ request.user.email }}",
+              "contact": "9000090000"
+            },
+            "notes": {
+              "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+              "color": "#3399cc"
+            }
+          };
+          var rzp1 = new Razorpay(options);
+          rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+          });
+          document.getElementById('rzp-button1').onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+          }
+        // });
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% include "footer.html" %}

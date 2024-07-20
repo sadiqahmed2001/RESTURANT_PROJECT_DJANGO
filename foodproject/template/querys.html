@@ -1,0 +1,90 @@
+{% load static %}
+{% include "headlink.html" %}
+{% include "messages.html" %}
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Customer ENQUERYS HUB</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center text-uppercase">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">
+                    QueryHub
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s" style="width: 100%;">
+    <div class="row g-0">
+        <div class="col-md-12 bg-dark d-flex align-items-center">
+            <div class="py-5 wow fadeInUp" data-wow-delay="0.2s">
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">ENQUERY</h5>
+                <h1 class="text-white mb-4">{{ request.user.first_name|default:request.user.username }}</h1>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name"
+                                    required>
+                                <label for="name">Your Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Your Email" required>
+                                <label for="email">Your Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-8 bg-dark d-flex align-items-center">
+                            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                                <h5 class="section-title ff-secondary text-start text-primary fw-normal">ENQUERY</h5>
+                                <h1 class="text-white mb-4">Your Enquerys</h1>
+                                <table class="table table-dark table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Subject</th>
+                                            <th>Message</th>
+                                            <th>CreatedAt</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for query in querys %}
+                                        <tr>
+                                            <td>{{ query.name }}</td>
+                                            <td>{{ query.phone }}</td>
+                                            <td>{{ query.email }}</td>
+                                            <td>{{ query.subject}}</td>
+                                            <td>{{ query.message }}</td>
+                                            <td>{{ query.created_at }}</td>
+
+                                            <td>
+                                                {% if query.is_solved %}
+                                                <span class="badge bg-success">Solved</span>
+                                                {% else %}
+                                                <span class="badge bg-danger">Unsolved</span>
+                                                {% comment %} {% else %}
+                                                <p>You haven't submitted any queries yet.</p> {% endcomment %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        {% include "footer.html" %}

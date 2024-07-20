@@ -1,0 +1,89 @@
+{% load static %}
+{% include "headlink.html" %}
+{% include "messages.html" %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Cart Dish</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center text-uppercase">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">CART</h5>
+            <h1 class="mb-5">Your CART</h1>
+            <div class="row g-4">
+                
+                <div class="col-lg-6">
+                {% for cart in carts %}
+                    <div class="d-flex align-items-center">
+                        <img class="flex-shrink-0 img-fluid rounded" src="{{ cart.mid.image.url }}" alt=""
+                            style="width: 80px;">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>{{ cart.mid.name }}</span>
+                                   {% if item.category == 1 %}
+                                        <span>BreakFast</span>
+                                        {% elif item.category == 2 %}
+                                        <span>Lunch</span>
+                                        {% else %}
+                                        <span>Dinner</span>
+                                        {% endif %}
+                                        {% if items.type == 1 %}
+                                        <span>VEG</span>
+                                        {% elif item.type == 2 %}
+                                        <span>NON-VEG</span>
+                                        {% elif item.type == 3 %}
+                                        <span>HotDrinks</span>
+                                        {% else %}
+                                        <span>ColdDrinks</span>
+                                    {% endif %}
+                                
+                                <span class="text-primary">{{ cart.mid.price }}</span>
+                            </h5>
+                            <small class="fst-italic">{{ cart.mid.description }}</small>
+                            <p><a href="/updateqty/0/{{cart.id}}"><button class="btn btn-danger">-</button></a>
+                                <input type="text" value="{{cart.qty}}" id="" style="height: 40px; width: 40px;">
+                                <a href="/updateqty/1/{{cart.id}}"><button class="btn btn-danger">+</button></a>
+                            </p>
+                                
+                            <a href="/removecart/{{cart.id}}" class="anchor"><button class="btn btn-danger">Remove</button></a>
+                        </div>  
+                    </div>
+                {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+     <div class="row g-6">
+        <div class="col-md-5 wow fadeIn" data-wow-delay="0.1s"></div>
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-md-5 mt-5 shadow d-flex flex-column align-items-center justify-content-center">
+                    <h4>Price details</h4>
+                    <hr>
+                    <p><strong>Price:</strong> {{ price }}</p>
+                    <p><strong>Total Items: {{ items }} items </strong></p>
+                    <p><strong>Total Amount:</strong> {{ price }}</p>
+                    <a href="/conformorder" class="anchor"><button class="btn btn-danger py-2 px-4 mt-3">CONFORM</button></a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% include "footer.html" %}

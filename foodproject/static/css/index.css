@@ -1,0 +1,32 @@
+body {
+    padding-top: 56px;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+footer .text-uppercase {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+footer ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+footer ul li {
+    margin-bottom: 10px;
+}
+
+footer a {
+    text-decoration: none;
+    color: #000;
+}
+
+footer a:hover {
+    color: #007bff;
+    text-decoration: underline;
+}

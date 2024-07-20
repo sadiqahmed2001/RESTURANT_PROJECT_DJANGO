@@ -1,0 +1,139 @@
+{% load static %}
+
+<head>
+  <meta charset="utf-8" />
+  <title>DADDY'S RESTURANT</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta
+    content="Daddy's Restaurant, best restaurant in [Your City], top dining experience, fine dining, best food in [Your City]"
+    name="keywords" />
+  <meta
+    content="Welcome to Daddy's Restaurant, the best dining experience in [Your City]. Enjoy fine dining, exquisite dishes, and a cozy atmosphere."
+    name="description" />
+  <link rel="canonical" href="https://www.daddysrestaurant.com/" />
+
+  <!-- Favicon -->
+  <!-- <link rel="icon" type="image/png" href="../static/images/webicon.png"> -->
+  <link href="https://img.icons8.com/?size=100&id=S6NOYY9g3RTf&format=png&color=000000" type="image/x-icon" rel="icon" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+  <!-- Libraries Stylesheet -->
+  <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+  <!-- Template Stylesheet -->
+
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+</head>
+
+<div class="container-xxl position-relative p-0">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+    <button class="openbtn" onclick="openNav()"><span class="material-symbols-outlined">lists</span></button>
+    <!-- <a class="navbar-brand" href="#"></a> -->
+
+    <a href="" class="navbar-brand p-0">
+      <h1 class="text-primary m-0">
+        <i class="fa fa-utensils me-3"></i>DADDY'S Restoran
+      </h1>
+      <!-- <img src="img/logo.png" alt="Logo"> -->
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span
+        class="fa fa-bars"></span></button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto py-0 pe-4">
+        {% if request.user.is_authenticated %}
+        <a href="/index" class="nav-item nav-link active">Home<i class="fa-solid fa-house"></i></a>
+        <a href="/about" class="nav-item nav-link">About<span class="material-symbols-outlined">info</span></a>
+        <a href="/service" class="nav-item nav-link">Service<span class="material-symbols-outlined">flatware</span></a>
+        <a href="/menu" class="nav-item nav-link">Menu<span class="material-symbols-outlined">menu_book</span></a>
+        <a href="/ulogout" class="nav-item nav-link">LogOut<span class="material-symbols-outlined">logout</span></a>
+        {% else %}
+        <a href="/ulogin" class="nav-item nav-link">LogIn<span class="material-symbols-outlined">LogIn</span></a>
+        <a href="/register" class="nav-item nav-link">SignUp<span class="material-symbols-outlined">app_registration</span></a>
+        {% endif %}
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages <span
+              class="material-symbols-outlined">pageview</span></a>
+          <div class="dropdown-menu m-0">
+            {% if request.user.is_authenticated %}
+            <a href="/savebooking" class="dropdown-item">Booking<span
+                class="material-symbols-outlined">book_online</span></a>
+            <a href="/team" class="dropdown-item">Our Team<span class="material-symbols-outlined">groups</span></a>
+            <a href="/testimonial" class="dropdown-item">Testimonial<span
+                class="material-symbols-outlined">reviews</span></a>
+            <a href="/contact" class="dropdown-item"><i class="fa-solid fa-phone"></i>Contact</a>
+            <a href="/viewcart" class="dropdown-item">CART<span class="material-symbols-outlined">precision_manufacturing</span></a>
+            <a href="/track" class="dropdown-item">TrackOrder<span class="material-symbols-outlined">room_service</span></a>
+            <a href="/ulogout" class="dropdown-item">logout<span class="material-symbols-outlined">logout</span></a>
+            {% else %}
+            <a href="/ulogin" class="dropdown-item">Login<span class="material-symbols-outlined">LogIn</span></a>
+            <a href="/register" class="dropdown-item">REGISTER<span class="material-symbols-outlined">app_registration</span></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <a href="/savebooking" class="btn btn-primary py-2 px-4">Book A Table</a>
+    </div>
+  </nav>
+  <div id="myAsidebar" class="asidebar">
+    {% if request.user.is_authenticated %}
+    <p id="wifi-status">Checking WiFi status...</p>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="/about">About<span class="material-symbols-outlined">info</span></a>
+    <a href="/service" class="nav-item nav-link">Service<span class="material-symbols-outlined">flatware</span></a>
+    <a href="/testimonial">Clients<span class="material-symbols-outlined">reviews</span></a>
+    <a href="/contact"><i class="fa-solid fa-phone"></i>Contact</a>
+    <a href="/post_list">blogs<span class="material-symbols-outlined">post_add</span></a>
+    <a href="/reservation_view">Rservations<span class="material-symbols-outlined">event_seat</span></a>
+    <a href="/reviews">FeedBack<span class="material-symbols-outlined">rate_review</span></a>
+    <a href="/queryviews">QueryHub<span class="material-symbols-outlined">query_stats</span></a>
+    <a href="/track">TrackOrder<span class="material-symbols-outlined">room_service</span></a>
+    <a href="/ulogout">logout<span class="material-symbols-outlined">logout</span></a>
+    {% else %}
+    <a href="/ulogint">Login<span class="material-symbols-outlined">LogIn</span></a>
+    <a href="/register">REGISTER<span class="material-symbols-outlined">app_registration</span></a>
+    {% endif %}
+
+  </div>
+</div>
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'lib/wow/wow.min.js' %}"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'lib/tempusdominus/js/moment.min.js' %}"></script>
+<script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
+<script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+
+<!-- Template Javascript -->
+<script src="{% static 'javascript/bootstrap.min.js' %}"></script>
+<script src="{% static 'javascript/main.js' %}"></script>
+<script src="{% static 'javascript/sidebar.js' %}"></script>

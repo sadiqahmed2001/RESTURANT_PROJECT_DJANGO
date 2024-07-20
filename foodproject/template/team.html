@@ -1,0 +1,72 @@
+{% include "headlink.html" %}
+{% load static %} 
+
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+  <div class="container text-center my-5 pt-5 pb-4">
+    <h1 class="display-3 text-white mb-3 animated slideInDown">Our Team</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center text-uppercase">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item text-white active" aria-current="page">
+          Team
+        </li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<!-- Team Start -->
+
+<div class="container-xxl pt-5 pb-3">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h5 class="section-title ff-secondary text-center text-primary fw-normal">
+        Team Members
+      </h5>
+      <h1 class="mb-5">Our Master Chefs</h1>
+    </div>
+    <div class="row g-4">
+      {% for member in members %}
+      <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="team-item text-center rounded overflow-hidden">
+          <div class="rounded-circle overflow-hidden m-4">
+            <img class="img-fluid" loading="lazy" src="{{ member.image.url }}" alt="" />
+          </div>
+          <h5 class="mb-0">{{ member.full_name }}</h5>
+          <small>{{ member.designation }}</small>
+          <div class="d-flex justify-content-center mt-3">
+            {% if member.facebook_url %}
+            <a class="btn btn-square btn-primary mx-1" href="{{ member.facebook_url }}"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            {% endif %}
+            {% if member.twitter_url %}
+            <a class="btn btn-square btn-primary mx-1" href="{{ member.twitter_url }}"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            {% endif %}
+            {% if member.instagram_url %}
+            <a class="btn btn-square btn-primary mx-1" href="{{ member.instagram_url }}"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Team end -->
+
+{% include "footer.html" %}
+
+
+
+
+

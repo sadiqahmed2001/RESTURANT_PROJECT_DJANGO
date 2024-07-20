@@ -1,0 +1,51 @@
+{% load static %} 
+
+{% include "headlink.html" %}
+
+
+
+<body>
+  <div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+      <h1 class="display-3 text-white mb-3 animated slideInDown">REGISTRATION</h1>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-center text-uppercase">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a href="#">Pages</a></li>
+          <li class="breadcrumb-item text-white active" aria-current="page">
+            About
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  
+  {% include "messages.html" %}
+  
+  <div class="container">
+    <div class="register-container">
+      <h2>Register</h2>
+      <form id="registrationForm" action="{% url 'register' %}" method="POST" onsubmit="confirmSubmission(event)">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="name"  class="form-control" name="name"  placeholder="Username"  required />
+        </div>
+        <div class="form-group">
+          <input type="email"  class="form-control" name="email"  placeholder="Email"  required />
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" name="password" placeholder="Password" required/>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" name="cpassword" placeholder="Confirm Password" required />
+        </div>
+        <button type="submit" class="btn btn-register">Register</button>
+      </form>
+      <p class="register-form-bottom-text">
+        Already have an account? <a href="/ulogin">Login here</a>
+      </p>
+    </div>
+  </div>
+
+  {% include "footer.html" %}
+</body>

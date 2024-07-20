@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+</head>
+<body>
+    <h2>Thank you for your order, {{ user.first_name }} {{ user.last_name }}</h2>
+    <p>Here are the details of your order:</p>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid #ddd; padding: 8px;">Product</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Quantity</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Price</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">{{ order.m_id.name }}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">{{ order.qty }}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">{{ order.m_id.price }}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">{{ order.m_id.price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Total Amount: INR {{ total_amount|floatformat:2 }}</p>
+</body>
+</html>

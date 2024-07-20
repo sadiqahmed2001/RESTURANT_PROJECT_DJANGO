@@ -1,0 +1,121 @@
+{% load static %}
+{% include "headlink.html" %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Customer Tracker HUB</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center text-uppercase">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">
+                    QueryHub
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s" style="width: 100%;">
+    <div class="row g-0">
+        <div class="col-md-12 bg-dark d-flex align-items-center">
+            <div class="py-5 wow fadeInUp" data-wow-delay="0.2s">
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">FOOD TRACKER</h5>
+                <h1 class="text-white mb-4">{{ request.user.first_name|default:request.user.username }}</h1>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name"
+                                    required>
+                                <label for="name">Your Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Your Email" required>
+                                <label for="email">Your Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-8 bg-dark d-flex align-items-center">
+                            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                                <h5 class="section-title ff-secondary text-start text-primary fw-normal">ENQUERY</h5>
+                                <h1 class="text-white mb-4">Your FOOD </h1>
+                             
+                                <table class="table table-dark table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>UserName</th>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Quantity</th>
+                                            <th>Type</th>
+                                            <th>update_desc</th>
+                                            <th>CreatedAt</th>
+                                            <th>TimeStamp</th>
+                                            <th>Status</th>
+                                            <th>Payment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for track in trackers %}
+                                        <tr>
+                                            <td>{{ track.user_id }}</td>
+                                            <td>{{ track.m_id.name }}</td>
+                                            {% if track.m_id.category == 1 %}
+                                            <td>BreakFast</td>
+                                            {% elif track.m_id.category == 2 %}
+                                            <td>Lunch</td>
+                                            {% else %}
+                                            <td>Dinner</td>
+                                            {% endif %}
+                                            <td>{{track.qty}}</td>
+                                            {% if track.m_id.type == 1 %}
+                                            <td>VEGt</td>
+                                            {% elif track.m_id.type == 2 %}
+                                            <td>NON-VEG</td>
+                                            {% elif track.m_id.type == 3 %}
+                                            <td>HotDrinks</td>
+                                            {% else %}
+                                            <td>ColdDrinks</td>
+                                            {% endif %}
+
+                                            <td>{{track.update_desc}}</td>
+                                            <td>{{track.timestamp}}</td>
+                                            <td>{{ track.created_at }}</td>
+
+                                            <td>
+                                                {% if track.is_ready %}
+                                                <span class="badge bg-success">Ready To Serve</span>
+                                                {% else %}
+                                                <span class="badge bg-danger">Please..Wait</span>
+                                                {% comment %} {% else %}
+                                                <p>You haven't Ordered any dishes yet.</p> {% endcomment %}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if track.is_Paid %}
+                                                <span class="badge bg-success">PAID</span>
+                                                {% else %}
+                                                <span class="badge bg-danger">UNPAID</span>
+                                                {% comment %} {% else %}
+                                                <p>You haven't Ordered any dishes yet.</p> {% endcomment %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        {% include "footer.html" %}
