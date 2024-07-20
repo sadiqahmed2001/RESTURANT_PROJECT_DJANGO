@@ -88,10 +88,10 @@ ASGI_APPLICATION = 'foodproject.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'project',
-        'USER':'root',
-        'HOST':'localhost',
-        'PASSWORD':'root123'
+        'NAME': 'YOUR DATABASE NAME',
+        'USER':'USERNAME',
+        'HOST':'HOST NAME',
+        'PASSWORD':'PASSWORD'
     }
 }
 
