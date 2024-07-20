@@ -23,7 +23,7 @@ template_dirs=os.path.join(BASE_DIR,'template')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3_4^z@3t!!-wmkl@nn!ie&h1jk^g0dx@biit-e#&ce(1c0x-nb'
+SECRET_KEY = 'ENTER YOUR SCRETKEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -150,7 +150,7 @@ EMAIL_PORT = 587  # Port number for TLS
 EMAIL_USE_TLS = True  # Use TLS (True) or SSL (False)
 
 # Your email credentials
-EMAIL_HOST_USER = 'daddysinfo1@gmail.com'
+EMAIL_HOST_USER = 'yourgmail.com'
 EMAIL_HOST_PASSWORD = 'PASSWORD'
 
 # Default from email
