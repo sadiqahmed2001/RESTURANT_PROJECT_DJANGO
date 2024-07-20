@@ -15,7 +15,6 @@ from django.db import transaction
 from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import login_required
 from .utils import send_notification_email
 from django.core.mail import send_mail
 from django.db.utils import IntegrityError
@@ -481,7 +480,7 @@ def track(request):
         return redirect('/ulogin')
 
 # def makepayment(request):
-#     client = razorpay.Client(auth=("rzp_test_JjQ72OskgZ3YwQ", "Wve5BMxfecpjBRVbi04U19sj"))
+#     client = razorpay.Client(auth=("key", "screate key"))
 #     context = {}
 #     orders = Order.objects.filter(user_id=request.user.id)
 #     context["orders"] = orders
@@ -504,7 +503,7 @@ def makepayment(request):
         s=x.amt*x.qty
         oid=x.order_id
 
-    client= razorpay.Client(auth=("rzp_test_JjQ72OskgZ3YwQ", "Wve5BMxfecpjBRVbi04U19sj"))
+    client= razorpay.Client(auth=("key", "screate key"))
     data={"amount":s, "currency":"INR", "receipt":oid}
     payment=client.order.create(data=data)
     print(payment)
@@ -528,7 +527,7 @@ def paymentsuccess(request):
         print(p)
         
 
-        client = razorpay.Client(auth=("rzp_test_JjQ72OskgZ3YwQ", "Wve5BMxfecpjBRVbi04U19sj"))
+        client = razorpay.Client(auth=("key", "screate key"))
         client.utility.verify_payment_signature({'razorpay_order_id': orderid, 'razorpay_payment_id': paymentid,  'razorpay_signature': signature})
         orders = Order.objects.filter(user_id=request.user.id)
         for order in orders:
