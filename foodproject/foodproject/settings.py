@@ -151,7 +151,7 @@ EMAIL_USE_TLS = True  # Use TLS (True) or SSL (False)
 
 # Your email credentials
 EMAIL_HOST_USER = 'daddysinfo1@gmail.com'
-EMAIL_HOST_PASSWORD = 'mstp eizc lvtv qkbv'
+EMAIL_HOST_PASSWORD = 'PASSWORD'
 
 # Default from email
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
