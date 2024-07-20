@@ -1,6 +1,5 @@
 
 # Restaurant Website
-DEMO:--- https://sadiqahmed007.pythonanywhere.com/index/
 
 ## Overview
 
