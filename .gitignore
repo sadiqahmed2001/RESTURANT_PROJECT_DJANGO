@@ -1,2 +1,7 @@
 .vscode/
 comenv/
+
+# Add these lines to .gitignore if not present
+__pycache__/
+*.pyc
+
