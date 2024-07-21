@@ -16,10 +16,10 @@
     </div>
 </div>
 
-
+{% include "messages.html" %}
 <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
     <div class="row g-0">
-        <div class="col-md-6 bg-dark d-flex align-items-center">
+        <div class="col-md-6 bg-dark d-flex align-items-center" style="width: 100%;">
             <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                 <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
                 <h1 class="text-white mb-4">Book A Table Online</h1>
@@ -45,20 +45,22 @@
 
 
 
-                    <div class="col-md-6 bg-dark d-flex align-items-center">
+                    <div class="col-md-6 bg-dark d-flex align-items-center" style="width: 100%;">
                         <div class="p-6 wow fadeInUp" data-wow-delay="0.2s">
                             <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
                             <h1 class="text-white mb-4">Upcoming Reservations</h1>
                             <h1 class="text-white mb-4">{{ request.user.first_name|default:request.user.username }}</h1>
-                            <table class="table table-dark table-striped">
+                            <table class="table table-dark table-striped" style="width: 70%;">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Date & Time</th>
-                                        <th>People</th>
-                                        <th>Special Request</th>
-                                        <th>Status</th>
+                                        <th class="text-left">Name</th>
+                                        <th class="text-left">Email</th>
+                                        <th class="text-left">Date & Time</th>
+                                        <th class="text-left">People</th>
+                                        <th class="text-left">Special Request</th>
+                                        <th class="text-left">Status</th><br><br><br>
+                                        <th class="text-left">COMPLETE</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,12 +71,18 @@
                                         <td>{{ reservation.date_time }}</td>
                                         <td>{{ reservation.num_people }}</td>
                                         <td>{{ reservation.special_request }}</td>
-                                        <td>{{ reservation.created }}</td>
                                         <td>
                                             {% if reservation.is_reserved %}
                                             <span class="badge bg-success">Reserved</span>
-                                            {% else %}
+                                            {% else%}
                                             <span class="badge bg-danger">On-Waiting</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if reservation.is_reserved %}
+                                            <span class="badge bg-success">completed</span>
+                                            {% else%}
+                                            <span class="badge bg-danger">ON-Board</span>
                                             {% endif %}
                                         </td>
                                     </tr>

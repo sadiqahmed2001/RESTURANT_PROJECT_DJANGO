@@ -42,12 +42,14 @@ class TeamMember(models.Model):
 
 
 class Reservation(models.Model):
+    user = models.ForeignKey(User,null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     date_time = models.DateTimeField()
     num_people = models.PositiveIntegerField()
     special_request = models.TextField(blank=True, null=True)
     is_reserved = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

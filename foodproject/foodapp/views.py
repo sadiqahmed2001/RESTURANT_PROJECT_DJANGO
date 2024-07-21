@@ -285,7 +285,13 @@ def reservation_view(request):
     if request.user.is_authenticated:
         reservations = Reservation.objects.filter(email=request.user.email).order_by('-is_reserved')
         context["reservations"] = reservations
-        return render(request,'reservations.html',context)
+        if reservations.exists():
+            reservations.update(is_completed=True)
+            # reservations.delete()
+            return render(request, 'reservations.html', context)
+        else:
+            messages.error(request, "No upcoming reservations.")
+            return render(request,'reservations.html',context)
     else:
         return redirect('/ulogin')
 
@@ -476,6 +482,9 @@ def track(request):
         context = {}
         trackers = Order.objects.filter(user_id=request.user.id).order_by('-is_ready')
         context["trackers"] = trackers
+        completed_orders = trackers.filter(is_ready=True)
+        pending_orders = trackers.filter(is_ready=False)
+        # completed_orders.delete()
         return render(request,'track.html',context)
     else:
         return redirect('/ulogin')
@@ -525,7 +534,7 @@ def paymentsuccess(request):
         p=Payment(razorpay_payment_id=paymentid,razorpay_order_id=orderid,razorpay_signature=signature, order=o,amount=s,is_paid=True)
         p.save()
         print(p)
-        
+
 
         client = razorpay.Client(auth=("RAZORPAY_API_KEY", "RAZORPAY_SECRET_KEY"))
         client.utility.verify_payment_signature({'razorpay_order_id': orderid, 'razorpay_payment_id': paymentid,  'razorpay_signature': signature})
