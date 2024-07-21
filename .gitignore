@@ -5,3 +5,7 @@ comenv/
 __pycache__/
 *.pyc
 
+
+# .gitignore
+.env
+

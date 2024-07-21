@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 
+# settings.py
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 template_dirs=os.path.join(BASE_DIR,'template')
@@ -22,8 +25,10 @@ template_dirs=os.path.join(BASE_DIR,'template')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ENTER YOUR SCRETKEY'
+
+# Razorpay settings
+RAZORPAY_API_KEY = config('RAZORPAY_API_KEY')
+RAZORPAY_SECRET_KEY = config('RAZORPAY_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,10 +93,11 @@ ASGI_APPLICATION = 'foodproject.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'project',
-        'USER':'root',
-        'HOST':'localhost',
-        'PASSWORD':'root123'
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT'),
     }
 }
 
@@ -150,8 +156,8 @@ EMAIL_PORT = 587  # Port number for TLS
 EMAIL_USE_TLS = True  # Use TLS (True) or SSL (False)
 
 # Your email credentials
-EMAIL_HOST_USER = 'yourgmail.com'
-EMAIL_HOST_PASSWORD = 'PASSWORD'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 # Default from email
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
