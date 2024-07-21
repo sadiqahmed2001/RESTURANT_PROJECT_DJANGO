@@ -484,7 +484,7 @@ def track(request):
         context["trackers"] = trackers
         completed_orders = trackers.filter(is_ready=True)
         pending_orders = trackers.filter(is_ready=False)
-        # completed_orders.delete()
+        completed_orders.delete()
         return render(request,'track.html',context)
     else:
         return redirect('/ulogin')
