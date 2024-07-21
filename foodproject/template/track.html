@@ -15,8 +15,7 @@
         </nav>
     </div>
 </div>
-
-
+{% include "messages.html" %}
 <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s" style="width: 100%;">
     <div class="row g-0">
         <div class="col-md-12 bg-dark d-flex align-items-center">
@@ -48,6 +47,7 @@
                                 <table class="table table-dark table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Order Number</th>
                                             <th>UserName</th>
                                             <th>Name</th>
                                             <th>Category</th>
@@ -63,6 +63,7 @@
                                     <tbody>
                                         {% for track in trackers %}
                                         <tr>
+                                            <td>{{track.order_id}}</td>
                                             <td>{{ track.user_id }}</td>
                                             <td>{{ track.m_id.name }}</td>
                                             {% if track.m_id.category == 1 %}
