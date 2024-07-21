@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 
-# settings.py
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,8 +24,11 @@ template_dirs=os.path.join(BASE_DIR,'template')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config('SECRET_KEY')
 
-# Razorpay settings
+
+#razorpay key
 RAZORPAY_API_KEY = config('RAZORPAY_API_KEY')
 RAZORPAY_SECRET_KEY = config('RAZORPAY_SECRET_KEY')
 
@@ -158,7 +160,6 @@ EMAIL_USE_TLS = True  # Use TLS (True) or SSL (False)
 # Your email credentials
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-
 # Default from email
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
