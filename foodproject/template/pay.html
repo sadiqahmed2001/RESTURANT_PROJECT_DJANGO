@@ -110,15 +110,16 @@
           // .then(response => response.json())
           // .then(data => {
             var options = {
-              "key": "rzp_test_JjQ72OskgZ3YwQ" // Enter the Key ID generated from the Dashboard
+              "key": "rzp_test_JjQ72OskgZ3YwQ",// Enter the Key ID generated from the Dashboard
               "amount": "{{ total|floatformat:0 }}00", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
               "currency": "INR",
               "name": "DADDY's RESTAURANT.pvt ltd",
               "description": "Test Transaction",
               "image": "https://example.com/your_logo",
-              "order_id": "{{data.payment.id }}",
+              "order_id": "{{payment.id }}",
               "handler": function (response) {
-              window.location.href = `http://127.0.0.1:5000/paymentsuccess/?razorpay_payment_id=${response.razorpay_payment_id}&razorpay_order_id=${response.razorpay_order_id}&razorpay_signature=${response.razorpay_signature}`;
+                alert("Payment Successful");
+              window.location.href = `/paymentsuccess/?razorpay_payment_id=${response.razorpay_payment_id}&razorpay_order_id=${response.razorpay_order_id}&razorpay_signature=${response.razorpay_signature}`;
             },
             "prefill": {
               "name": "{{ request.user.name }}",

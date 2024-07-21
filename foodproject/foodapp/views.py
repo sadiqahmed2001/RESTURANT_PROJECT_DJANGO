@@ -401,6 +401,7 @@ def conformorder(request):
         amount += x.qty * x.mid.price
         o = Order.objects.create(order_id=oid, amt=amount, qty=x.qty ,m_id=x.mid, user_id=x.userid)
         o.save()
+        c.delete()
         request.session['current_order_id'] = oid
         subject = 'Order Confirmation'
         message = f'Thank you for your order. Your order ID is {oid}. The total amount is {amount:.2f}.'
@@ -480,7 +481,7 @@ def track(request):
         return redirect('/ulogin')
 
 # def makepayment(request):
-#     client = razorpay.Client(auth=("rzp_test_JjQ72OskgZ3YwQ", "Wve5BMxfecpjBRVbi04U19sj"))
+#     client = razorpay.Client(auth=("RAZORPAY_API_KEY", "RAZORPAY_SECRET_KEY"))
 #     context = {}
 #     orders = Order.objects.filter(user_id=request.user.id)
 #     context["orders"] = orders
@@ -503,12 +504,11 @@ def makepayment(request):
         s=x.amt*x.qty
         oid=x.order_id
 
-    client= razorpay.Client(auth=("rzp_test_JjQ72OskgZ3YwQ", "Wve5BMxfecpjBRVbi04U19sj"))
+    client= razorpay.Client(auth=("RAZORPAY_API_KEY", "RAZORPAY_SECRET_KEY"))
     data={"amount":s, "currency":"INR", "receipt":oid}
     payment=client.order.create(data=data)
     print(payment)
-
-    # orders.delete()
+    orders.delete()
     return HttpResponse('/paymentsuccess')
 
 
@@ -527,7 +527,7 @@ def paymentsuccess(request):
         print(p)
         
 
-        client = razorpay.Client(auth=("rzp_test_JjQ72OskgZ3YwQ", "Wve5BMxfecpjBRVbi04U19sj"))
+        client = razorpay.Client(auth=("RAZORPAY_API_KEY", "RAZORPAY_SECRET_KEY"))
         client.utility.verify_payment_signature({'razorpay_order_id': orderid, 'razorpay_payment_id': paymentid,  'razorpay_signature': signature})
         orders = Order.objects.filter(user_id=request.user.id)
         for order in orders:
