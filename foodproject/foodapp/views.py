@@ -285,9 +285,10 @@ def reservation_view(request):
     if request.user.is_authenticated:
         reservations = Reservation.objects.filter(email=request.user.email).order_by('-is_reserved')
         context["reservations"] = reservations
-        messages.success(request,f"your reservetion is successfully done {reservations}")
+        
         if reservations.exists():
             reservations.update(is_completed=True)
+            messages.success(request,f"your reservetion is successfully done {reservations}")
             # reservations.delete()
             return render(request, 'reservations.html', context)
         else:
@@ -485,8 +486,12 @@ def track(request):
         context["trackers"] = trackers
         completed_orders = trackers.filter(is_ready=True).order_by('order_id')
         pending_orders = trackers.filter(is_ready=False)
-        messages.success(request,f"your order is ready {completed_orders}")
-        completed_orders.delete()
+        if completed_orders.exists():
+            messages.success=(request, f"Your order is ready: {completed_orders.values_list('order_id', flat=True)}")
+        else:
+            messages.error=(request, f"Your order is Not ready ready yet: {pending_orders.values_list('order_id', flat=True)}")
+        # Delete completed orders
+        # completed_orders.delete()
         return render(request,'track.html',context)
     else:
         return redirect('/ulogin')
