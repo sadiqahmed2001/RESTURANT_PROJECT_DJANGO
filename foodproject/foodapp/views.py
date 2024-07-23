@@ -288,7 +288,8 @@ def reservation_view(request):
         
         if reservations.exists():
             reservations.update(is_completed=True)
-            messages.success(request,f"your reservetion is successfully done {reservations}")
+            reservation_dates = ", ".join([str(res.date_time) for res in reservations])
+            messages.success(request, f"Your reservation is successfully done for {reservation_dates}")
             # reservations.delete()
             return render(request, 'reservations.html', context)
         else:
@@ -332,7 +333,7 @@ def addtocart(request,mid):
         n=len(c)
         context["menuitems"]=m
         if n==1:
-            messages.error=(request,"Product is already Existed")
+            messages.error(request,"Product is already Existed")
             return render(request,'menu.html',context)
         else:
             cart=Cart.objects.create(mid=m[0],userid=u[0])
@@ -378,7 +379,7 @@ def removecart(request,cid):
     context={}
     c=Cart.objects.filter(id=cid)
     c.delete()
-    messages.success=(request,"cart removed successfully")
+    messages.success(request,"cart removed successfully")
     c=Cart.objects.filter(userid=request.user.id)
     
     context["carts"]=c
@@ -394,7 +395,7 @@ def updateqty(request,x,cid):
     elif q>1:
         q=q-1
     c.update(qty=q)
-    messages.success=(request,"cart updated successfully")
+    messages.success(request,"cart updated successfully")
     return redirect("/viewcart")
 
 
@@ -487,7 +488,7 @@ def track(request):
         completed_orders = trackers.filter(is_ready=True).order_by('order_id')
         pending_orders = trackers.filter(is_ready=False)
         if completed_orders.exists():
-            messages.success=(request, f"Your order is ready: {completed_orders.values_list('order_id', flat=True)}")
+            messages.success(request, f"Your order is ready: {completed_orders.values_list('order_id', flat=True)}")
         else:
             messages.error=(request, f"Your order is Not ready ready yet: {pending_orders.values_list('order_id', flat=True)}")
         # Delete completed orders
