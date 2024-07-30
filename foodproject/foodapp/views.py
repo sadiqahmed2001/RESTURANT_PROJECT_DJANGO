@@ -138,6 +138,36 @@ def send_notification_email(subject, message, recipient_list):
     from_email = 'daddyinfo1@gmail.com'
     send_mail(subject, message, from_email, recipient_list)
 
+# def register(request):
+#     if request.method == "POST":
+#         name = request.POST["name"]
+#         email = request.POST["email"]
+#         password = request.POST["password"]
+#         cpassword = request.POST["cpassword"]
+#         print(name, email, password, cpassword)
+
+#         if not all([name, email, password, cpassword]):
+#             messages.error(request, "Fields cannot be empty. Please fill all the fields.")
+#             return render(request, 'register.html')
+#         elif password != cpassword:
+#             messages.error(request, "Passwords do not match. Please re-enter your password.")
+#             return render(request, 'register.html')
+#         else:
+#             try:
+#                 u = User.objects.create(username=name, email=email)
+#                 u.set_password(password)
+#                 u.save()
+#                 messages.success(request, "Registration successful!")
+#                 subject = "THE DADDY'S RESTAURANT!"
+#                 message = f'Thank you for registering, {name}! Our team takes care of your taste and we serve the world\'s best quality of food. We are confident that this is not the last time we will serve you. We are always at your service. THANK YOU!!!'
+#                 send_notification_email(subject, message, [email])
+#             except IntegrityError:
+#                 messages.error(request, "A user with this email or username already exists.")
+#                 return render(request, "register.html")
+#             return redirect('/ulogin')
+#     return render(request, 'register.html')
+
+
 def register(request):
     if request.method == "POST":
         name = request.POST["name"]
@@ -146,25 +176,39 @@ def register(request):
         cpassword = request.POST["cpassword"]
         print(name, email, password, cpassword)
 
+        # Validation
+        errors = []
         if not all([name, email, password, cpassword]):
-            messages.error(request, "Fields cannot be empty. Please fill all the fields.")
+            errors.append("Fields cannot be empty. Please fill all the fields.")
+        if not re.match("^[A-Za-z ]*$", name):
+            errors.append("Name should only contain letters.")
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            errors.append("Enter a valid email address.")
+        if password != cpassword:
+            errors.append("Passwords do not match. Please re-enter your password.")
+        if len(password) < 8:
+            errors.append("Password should be at least 8 characters long.")
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
             return render(request, 'register.html')
-        elif password != cpassword:
-            messages.error(request, "Passwords do not match. Please re-enter your password.")
-            return render(request, 'register.html')
-        else:
-            try:
-                u = User.objects.create(username=name, email=email)
-                u.set_password(password)
-                u.save()
-                messages.success(request, "Registration successful!")
-                subject = "THE DADDY'S RESTAURANT!"
-                message = f'Thank you for registering, {name}! Our team takes care of your taste and we serve the world\'s best quality of food. We are confident that this is not the last time we will serve you. We are always at your service. THANK YOU!!!'
-                send_notification_email(subject, message, [email])
-            except IntegrityError:
-                messages.error(request, "A user with this email or username already exists.")
-                return render(request, "register.html")
-            return redirect('/ulogin')
+        
+        # Attempt to create the user
+        try:
+            u = User.objects.create(username=name, email=email)
+            u.set_password(password)
+            u.save()
+            messages.success(request, "Registration successful!")
+            subject = "THE DADDY'S RESTAURANT!"
+            message = f'Thank you for registering, {name}! Our team takes care of your taste and we serve the world\'s best quality of food. We are confident that this is not the last time we will serve you. We are always at your service. THANK YOU!!!'
+            send_mail(subject, message, 'your-email@gmail.com', [email])
+        except IntegrityError:
+            messages.error(request, "A user with this email or username already exists.")
+            return render(request, "register.html")
+        
+        return redirect('/ulogin')
+    
     return render(request, 'register.html')
 
 def menu(request):
@@ -213,7 +257,7 @@ def service(request):
 #         return redirect('/contact')
 
 #     return render(request, 'contact.html')
-
+import re
 def contact(request):
     if request.method == 'POST':
         na = request.POST['user']
@@ -221,6 +265,19 @@ def contact(request):
         em = request.POST['email']
         su = request.POST['subject']
         me = request.POST['message']
+
+        errors = []
+        if not re.match("^[A-Za-z ]*$", na):
+            errors.append('Name should only contain letters.')
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", em):
+            errors.append('Enter a valid email address.')
+        if not re.match(r"^\+?\d{10,15}$", ph):  # Assuming phone number should be between 10 to 15 digits
+            errors.append('Enter a valid phone number.')
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return render(request, 'contact.html')
 
         # Save the contact form
         contact_form = ContactForm(name=na, phone=ph, email=em, subject=su, message=me)
@@ -253,6 +310,34 @@ def queryviews(request):
         return redirect('/ulogin')
 
 
+# def savebooking(request):
+#     if request.method == 'POST':
+#         n = request.POST['username']
+#         e = request.POST['email']
+#         dt = request.POST['datetime']
+#         num = request.POST['peoples']
+#         s = request.POST['message']
+#         try:
+#             datetime = timezone.datetime.strptime(dt, '%m/%d/%Y %I:%M %p')
+#         except ValueError:
+#             messages.error(request, 'Invalid datetime format. Please use mm/dd/yyyy hh:mm AM/PM format.')
+#         # Create a new reservation object
+#         booking = Reservation(name=n,email=e,date_time=datetime,num_people=num,special_request=s)
+#         booking.save()
+#         sms='your reservation table has been successfully reserved'
+#         subject = 'Table Reservation Confirmation'
+#         message = f'Thank you for your reservation. Your table has been reserved for {datetime.strftime("%m/%d/%Y %I:%M %p")}.'
+#         from_email = 'your-email@gmail.com'
+#         recipient_list = [e]
+#         try:
+#             send_mail(subject, message, from_email, recipient_list)
+#             messages.success(request, 'Your message has been sent successfully! A confirmation email has been sent to your email address.')
+#         except Exception as e:
+#             messages.error(request, 'Your message was sent, but we were unable to send a confirmation email. Please check your email configuration.')
+#     return render(request,"booking.html")
+
+import re
+
 def savebooking(request):
     if request.method == 'POST':
         n = request.POST['username']
@@ -260,24 +345,40 @@ def savebooking(request):
         dt = request.POST['datetime']
         num = request.POST['peoples']
         s = request.POST['message']
+
+        # Validation
+        errors = []
+        if not re.match("^[A-Za-z ]*$", n):
+            errors.append('Name should only contain letters.')
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", e):
+            errors.append('Enter a valid email address.')
+
         try:
             datetime = timezone.datetime.strptime(dt, '%m/%d/%Y %I:%M %p')
         except ValueError:
-            messages.error(request, 'Invalid datetime format. Please use mm/dd/yyyy hh:mm AM/PM format.')
+            errors.append('Invalid datetime format. Please use mm/dd/yyyy hh:mm AM/PM format.')
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return render(request, 'booking.html')
+
         # Create a new reservation object
-        booking = Reservation(name=n,email=e,date_time=datetime,num_people=num,special_request=s)
+        booking = Reservation(name=n, email=e, date_time=datetime, num_people=num, special_request=s)
         booking.save()
-        sms='your reservation table has been successfully reserved'
+        sms = 'your reservation table has been successfully reserved'
         subject = 'Table Reservation Confirmation'
         message = f'Thank you for your reservation. Your table has been reserved for {datetime.strftime("%m/%d/%Y %I:%M %p")}.'
         from_email = 'your-email@gmail.com'
         recipient_list = [e]
         try:
             send_mail(subject, message, from_email, recipient_list)
-            messages.success(request, 'Your message has been sent successfully! A confirmation email has been sent to your email address.')
+            messages.success(request, 'Your reservation has been successfully created! A confirmation email has been sent to your email address.')
         except Exception as e:
-            messages.error(request, 'Your message was sent, but we were unable to send a confirmation email. Please check your email configuration.')
-    return render(request,"booking.html")
+            messages.error(request, 'Your reservation was created, but we were unable to send a confirmation email. Please check your email configuration.')
+        return redirect('/savebooking')  # Assuming 'booking' is the name of your booking page URL
+    else:
+        return render(request, 'booking.html')
 
 
 def reservation_view(request):
