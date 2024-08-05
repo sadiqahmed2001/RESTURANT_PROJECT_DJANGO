@@ -1,7 +1,7 @@
             
 # Restaurant Website
 
-## Overview
+## Overview 
 
 **Restaurant Website** is a modern, responsive web application designed to provide a seamless experience for users to browse restaurant menus, place orders, and make reservations. Built with [Django](https://www.djangoproject.com/) and [Bootstrap](https://getbootstrap.com/), this project aims to enhance the dining experience both online and in-person.
 
